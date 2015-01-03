@@ -1,0 +1,4 @@
+## Ignore common patterns ##
+*.pyc
+env/
+venv/
