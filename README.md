@@ -68,6 +68,6 @@ Delete data is really simple like insert, just reference the column as condition
   result = connect_mysql.delete('car', conditional_query, 'nissan')
 ```
 
-#### Requirements
+## Requirements
 
 MySQL-python >= 1.2.5
