@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-import MySQLdb
+import MySQLdb, sys
 from collections import OrderedDict
 
-class PdoMysql(object):
+class MysqlPython(object):
     """
         Class for connecting  with MySQL server
     """
@@ -19,7 +19,7 @@ class PdoMysql(object):
 
     def __new__(cls, *args, **kwargs):
         if not cls.__instance or not cls.__database:
-             cls.__instance = super(PdoMysql, cls).__new__(cls,*args,**kwargs)
+             cls.__instance = super(MysqlPython, cls).__new__(cls,*args,**kwargs)
         return cls.__instance
     ## End def __new__
 
@@ -114,10 +114,14 @@ class PdoMysql(object):
         return self.__session.lastrowid
     ## End def insert
 
-    def delete(self, table, where=None):
-        query = "DELETE FROM %s WHERE %s" % (table, where)
+    def delete(self, table, where=None, *args):
+        query = "DELETE FROM %s" % table
+        if where:
+            query += ' WHERE %s' % where
+
+        values = tuple(args)
         self.__open()
-        self.__session.execute(query)
+        self.__session.execute(query, values)
         self.__connection.commit()
         self.__close()
     ## End def delete
