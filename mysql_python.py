@@ -6,7 +6,8 @@ from collections import OrderedDict
 
 class MysqlPython(object):
     """
-        Class for connecting  with MySQL server
+        Python Class for connecting  with MySQL server and accelerate development project using MySQL
+        Extremely easy to learn and use, friendly construction.
     """
 
     __instance   = None
