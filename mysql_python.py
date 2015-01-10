@@ -78,24 +78,24 @@ class MysqlPython(object):
         return result
     ## End def select
 
-    def update(self, table, where=None, **kwargs):
+    def update(self, table, where=None, *args, **kwargs):
         query  = "UPDATE %s SET " % table
         keys   = kwargs.keys()
-        values = tuple(kwargs.values())
-
+        values = tuple(kwargs.values()) + tuple(args)
         l = len(keys) - 1
         for i, key in enumerate(keys):
             query += "`"+key+"` = %s"
-            if i < 1:
+            if i < l:
                 query += ","
             ## End if i less than 1
-            query += "WHERE %s " % where
         ## End for keys
-        self.__open()
+        query += " WHERE %s" % where
+
+        self._open()
         self.__session.execute(query, values)
         self.__connection.commit()
-        self.__close()
-    ## End def update
+        self._close()
+    ## End function update
 
     def insert(self, table, *args, **kwargs):
         values = None
