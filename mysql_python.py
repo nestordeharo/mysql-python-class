@@ -91,10 +91,15 @@ class MysqlPython(object):
         ## End for keys
         query += " WHERE %s" % where
 
-        self._open()
+        self.__open()
         self.__session.execute(query, values)
         self.__connection.commit()
-        self._close()
+
+        # Obtain rows affected
+        update_rows = self.__session.rowcount
+        self.__close()
+
+        return update_rows
     ## End function update
 
     def insert(self, table, *args, **kwargs):
@@ -121,10 +126,16 @@ class MysqlPython(object):
             query += ' WHERE %s' % where
 
         values = tuple(args)
+
         self.__open()
         self.__session.execute(query, values)
         self.__connection.commit()
+
+        # Obtain rows affected
+        delete_rows = self.__session.rowcount
         self.__close()
+
+        return delete_rows
     ## End def delete
 
     def select_advanced(self, sql, *args):
